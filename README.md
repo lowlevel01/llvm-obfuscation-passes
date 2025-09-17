@@ -5,7 +5,7 @@ NOTE: I used the skeleton and build system from https://github.com/sampsyo/llvm-
 
 ## Supported Passes
 
-- [x] MBA Add : x + y -> (x ^ y) + 2*(x & y)
+- [x] MBA_Add_Sub.cpp : x + y -> (x ^ y) + 2*(x & y) ; x - y becomes x + (-y) in case of subtraction
 
 ## build and run
 ````bash
@@ -16,5 +16,6 @@ cmake ..
 make
 cd ..
 
-clang -fpass-plugin=`echo build/passes/MBA_Add_Pass.so` examples/mba_add.c -o examples/mba_add.o
+clang -fpass-plugin=`echo build/passes/MBA_Add_Sub_Pass.so` examples/mba_add_sub.c -o examples/mba_add_sub.o
 ````
+
