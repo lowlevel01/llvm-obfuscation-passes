@@ -13,7 +13,7 @@ using namespace llvm;
 
 namespace {
 
-struct SkeletonPass : public PassInfoMixin<SkeletonPass> {
+struct MBA_Add: public PassInfoMixin<MBA_Add> {
     PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
         SmallVector<BinaryOperator*, 16> Adds;
         for (auto &F : M) {
@@ -63,7 +63,7 @@ llvmGetPassPluginInfo() {
         .RegisterPassBuilderCallbacks = [](PassBuilder &PB) {
             PB.registerPipelineStartEPCallback(
                 [](ModulePassManager &MPM, OptimizationLevel Level) {
-                    MPM.addPass(SkeletonPass());
+                    MPM.addPass(MBA_Add());
                 });
         }
     };
