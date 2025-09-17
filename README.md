@@ -9,7 +9,7 @@ NOTE: I used the skeleton and build system from https://github.com/sampsyo/llvm-
 
 ## build and run
 ````bash
-cd llvm-pass-skeleton
+cd llvm-obfuscation-passes
 mkdir build
 cd build
 cmake ..
