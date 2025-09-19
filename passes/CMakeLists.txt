@@ -1,4 +1,2 @@
-add_llvm_pass_plugin(MBA_Add_Sub_Pass
-    # List your source files here.
-    MBA_Add_Sub.cpp
-)
+add_subdirectory(string_xor)
+add_subdirectory(mba_add_sub)
