@@ -109,13 +109,13 @@ public:
       std::string originalStr = originalCDA->getAsString().str();
 
       // DEBUG: Check if string has users
-    errs() << "Processing string: " << originalStr << "\n";
-    errs() << "Number of users: " << stringGV->getNumUses() << "\n";
+      errs() << "Processing string: " << originalStr << "\n";
+      errs() << "Number of users: " << stringGV->getNumUses() << "\n";
     
-    if (stringGV->use_empty()) {
+      if (stringGV->use_empty()) {
         errs() << "String '" << originalStr << "' has no users, skipping...\n";
         continue;
-    }
+      }
 
       uint8_t xorKey = generateXORKey();
 
@@ -192,14 +192,14 @@ public:
         }
 
         if (ConstantExpr* CE = dyn_cast<ConstantExpr>(user)) {
-    SmallVector<User*, 4> ceUsers(CE->users()); // copy
-    for (User* ceUser : ceUsers) {
-      if (Instruction* iu = dyn_cast<Instruction>(ceUser)) {
-        Instruction* newInst = CE->getAsInstruction(iu); // inserts before iu
-        iu->replaceUsesOfWith(CE, newInst);
-      }
-    }
-  }
+          SmallVector<User*, 4> ceUsers(CE->users()); // copy
+          for (User* ceUser : ceUsers) {
+            if (Instruction* iu = dyn_cast<Instruction>(ceUser)) {
+              Instruction* newInst = CE->getAsInstruction(iu); // inserts before iu
+              iu->replaceUsesOfWith(CE, newInst);
+            }
+          }
+        }
       }
       //remove the original strings 
       if(stringGV->use_empty()){
