@@ -78,7 +78,7 @@ diff examples/StringXor/string_xor_original.ll examples/StringXor/string_xor_obf
 # Navigate back to project root
 cd ..
 
-# Apply MBA obfuscation to your C code
+# Apply Control Flow flattening to your C code
 clang -fpass-plugin=build/passes/cff/CFF_Pass.so \
       examples/CFF/cff.c -o examples/CFF/cffed
 
@@ -91,6 +91,7 @@ clang -S -emit-llvm examples/CFF/cff.c -o examples/CFF/normal.ll
 diff examples/CFF/normal.ll examples/CFF/cffed.ll
 ````
 ![CFF](images/cff_example.png)
+
 ## Development
 
 ### Adding New Passes
