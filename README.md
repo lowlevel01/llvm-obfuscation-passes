@@ -16,6 +16,10 @@ NOTE: I used the skeleton and modified build system from https://github.com/samp
 |------|-------------|-----------|
 | **String_Xor** | Obfuscates string literals using XOR encryption | Encrypts strings at compile-time, decrypts at runtime using external function |
 
+### Control Flow Flattening
+| Pass | Description | Technique |
+|------|-------------|-----------|
+| **CFF** | Flattens control flow using switch-based dispatcher | Converts all branches to a centralized switch statement that dispatches to basic blocks based on a state variable |
 ## Build Instructions
 ```bash
 # Clone the repository
@@ -36,16 +40,16 @@ make -j$(nproc)
 cd ..
 
 # Apply MBA obfuscation to your C code
-clang -fpass-plugin=build/passes/MBA_Add_Sub_Pass.so \
-      examples/mba_add_sub.c -o examples/mba_add_sub_obfuscated
+clang -fpass-plugin=build/passes/mba_add_sub/MBA_Add_Sub_Pass.so \
+      examples/mba_Add_Sub/mba_add_sub.c -o examples/mba_Add_Sub/mba_add_sub_obfuscated
 
 # View the obfuscated IR
 clang -fpass-plugin=build/passes/mba_add_sub/MBA_Add_Sub_Pass.so \
-      -S -emit-llvm examples/mba_add_sub.c -o examples/mba_add_sub_obfuscated.ll
+      -S -emit-llvm examples/mba_Add_Sub/mba_add_sub.c -o examples/mba_Add_Sub/mba_add_sub_obfuscated.ll
 
 # Compare original vs obfuscated
-clang -S -emit-llvm examples/mba_add_sub.c -o examples/mba_add_sub_original.ll
-diff examples/mba_add_sub_original.ll examples/mba_add_sub_obfuscated.ll
+clang -S -emit-llvm examples/mba_Add_Sub/mba_add_sub.c -o examples/mba_Add_Sub/mba_add_sub_original.ll
+diff examples/mba_Add_Sub/mba_add_sub_original.ll examples/mba_Add_Sub/mba_add_sub_obfuscated.ll
 ````
 ### String XOR Obfuscation
 
@@ -55,21 +59,38 @@ clang -c external/decrypt_string_xor.c -o external/decrypt_string_xor.o
 
 # Apply string XOR obfuscation and compile to object file
 clang -fpass-plugin=build/passes/string_xor/String_Xor_Pass.so \
-      -c examples/string_xor.c -o examples/string_xor_obfuscated.o
+      -c examples/StringXor/string_xor.c -o examples/StringXor/string_xor_obfuscated.o
 
 # Link both object files to create the final executable
-clang examples/string_xor_obfuscated.o external/decrypt_string_xor.o \
-      -o examples/string_xor_obfuscated
+clang examples/StringXor/string_xor_obfuscated.o external/decrypt_string_xor.o \
+      -o examples/StringXor/string_xor_obfuscated
 
 # View the obfuscated IR
 clang -fpass-plugin=build/passes/string_xor/String_Xor_Pass.so \
-      -S -emit-llvm examples/string_xor.c -o examples/string_xor_obfuscated.ll
+      -S -emit-llvm examples/StringXor/string_xor.c -o examples/StringXor/string_xor_obfuscated.ll
 
 # Compare original vs obfuscated
-clang -S -emit-llvm examples/string_xor.c -o examples/string_xor_original.ll
-diff examples/string_xor_original.ll examples/string_xor_obfuscated.ll
+clang -S -emit-llvm examples/StringXor/string_xor.c -o examples/StringXor/string_xor_original.ll
+diff examples/StringXor/string_xor_original.ll examples/StringXor/string_xor_obfuscated.ll
 ```
+### Control Flow Flattening
+```bash
+# Navigate back to project root
+cd ..
 
+# Apply MBA obfuscation to your C code
+clang -fpass-plugin=build/passes/cff/CFF_Pass.so \
+      examples/CFF/cff.c -o examples/CFF/cffed
+
+# View the obfuscated IR
+clang -fpass-plugin=build/passes/cff/CFF_Pass.so \
+      -S -emit-llvm examples/CFF/cff.c -o examples/CFF/cffed.ll
+
+# Compare original vs obfuscated
+clang -S -emit-llvm examples/CFF/cff.c -o examples/CFF/normal.ll
+diff examples/CFF/normal.ll examples/CFF/cffed.ll
+````
+![CFF](images/cff_example.png)
 ## Development
 
 ### Adding New Passes
