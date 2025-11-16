@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -Wl,-rpath-link,  -Wl,--gc-sections -shared  -o MBA_Add_Sub_Pass.so CMakeFiles/MBA_Add_Sub_Pass.dir/MBA_Add_Sub.cpp.o   -L/usr/local/lib  -Wl,-rpath,"\$ORIGIN/../lib:/usr/local/lib:" 

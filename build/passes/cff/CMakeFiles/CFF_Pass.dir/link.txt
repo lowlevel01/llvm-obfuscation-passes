@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -Wl,-rpath-link,  -Wl,--gc-sections -shared  -o CFF_Pass.so CMakeFiles/CFF_Pass.dir/CFF_Pass.cpp.o   -L/usr/local/lib  -Wl,-rpath,"\$ORIGIN/../lib:/usr/local/lib:" 
